@@ -1,11 +1,11 @@
-package project.backend.domain.user.entity;
+package project.backend.domain.member.entity;
 
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import project.backend.domain.common.entity.BaseEntity;
-import project.backend.domain.user.dto.UserPatchRequestDto;
+import project.backend.domain.member.dto.MemberPatchRequestDto;
 
 import javax.persistence.*;
 import java.util.Optional;
@@ -13,28 +13,30 @@ import java.util.Optional;
 @Entity
 @Getter
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
-public class User extends BaseEntity {
+public class Member extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // todo : IDENTITY와 AUTO 차이점이 뭔지?
-    @Column(name = "user_id")
+    @Column(name = "member_id")
     public Long id;
 
     @Enumerated(value = EnumType.STRING)
     public SocialType socialType;
 
-    @Column(name = "social_id")
     public String socialId;
 
+    public String refreshToken;
+
+
     @Builder
-    public User(SocialType socialType, String socialId){
+    public Member(SocialType socialType, String socialId, String nickname, String profileUrl, String refreshToken){
         this.socialType = socialType;
         this.socialId = socialId;
+        this.refreshToken = refreshToken;
     }
 
     // Patch
-    public User patchUser(UserPatchRequestDto userPatchRequestDto){
-        this.socialType = Optional.ofNullable(userPatchRequestDto.getSocialType()).orElse(this.socialType);
-        this.socialId = Optional.ofNullable(userPatchRequestDto.getSocialId()).orElse(this.socialId);
+    public Member patchMember(MemberPatchRequestDto memberPatchRequestDto){
+        this.refreshToken = Optional.ofNullable(memberPatchRequestDto.getRefreshToken()).orElse(this.refreshToken);
         return this;
     }
 }

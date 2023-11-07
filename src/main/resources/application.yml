@@ -1,17 +1,21 @@
-
-
 spring:
+
+  servlet:
+    multipart:
+      max-file-size: 20MB
+      max-request-size: 20MB
+
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/skeleton
-    username: root
-    password: admin1234
+    url: ${SUMYO_DB_URL}
+    username: ${SUMYO_DB_USER}
+    password: ${SUMYO_DB_PW}
 
   jpa:
     database: mysql
     show-sql: false
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
     properties:
       hibernate:
         format_sql: false
@@ -24,9 +28,25 @@ spring:
     pathmatch:
       matching-strategy: ant_path_matcher
 
+cloud:
+  aws:
+    s3:
+      bucket: sumyo2323
+    credentials:
+      access-key: ${SUMYO_S3_ACCESS}
+      secret-key: ${SUMYO_S3_SECRET}
+    region:
+      static: ap-northeast-2
+      auto: false
+    stack:
+      auto: false
+
 logging:
   level:
     project.backend: debug
+
+jwt:
+  secret: ${SUMYO_SECRET}
 
 server:
   port: 8080
