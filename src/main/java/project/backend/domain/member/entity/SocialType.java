@@ -5,6 +5,7 @@ import lombok.Getter;
 @Getter
 public enum SocialType {
     KAKAO("kakao"),
+    GOOGLE("google"),
     APPLE("apple");
 
     private final String status;

@@ -33,9 +33,6 @@ public class JwtService {
     @Value("${jwt.secret}")
     private String secretKey;
 
-    @Value("${jwt.kakao.client_id}")
-    private String client_id;
-
     public String getAccessToken(Member member){
 
         // accessToken, refreshToken 발급
@@ -55,48 +52,6 @@ public class JwtService {
         accessToken = accessToken.split(" ")[1];
         Long userId = JwtProvider.getUserId(accessToken, secretKey);
         return memberService.verifiedMember(userId);
-    }
-
-    public String getKakaoAccessToken(String code, String redirect_url) {
-
-        String accessToken = "";
-        String reqURL = "https://kauth.kakao.com/oauth/token";
-
-        try {
-            URL url = new URL(reqURL);
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-
-            // POST 요청을 위해 기본값이 false인 setDoOutput을 true로 설정
-            conn.setRequestMethod("POST");
-            conn.setDoOutput(true);
-            // POST 요처에 필요로 요구하는 파라미터를 스트림을 통해 전송
-            BufferedWriter bw = new BufferedWriter((new OutputStreamWriter(conn.getOutputStream())));
-            StringBuilder sb = new StringBuilder();
-            sb.append("grant_type=authorization_code");
-            sb.append("&client_id=" + client_id);
-            sb.append("&redirect_uri=" + redirect_url);
-            sb.append("&code=" + code);
-            bw.write(sb.toString());
-            bw.flush();
-
-            // 결과 코드가 200이라면 성공, 아니면 에러 발생
-            if(conn.getResponseCode() != 200) {
-                throw new BusinessException(ErrorCode.KAKAO_CODE_NOT_VALID);
-            }
-
-            // 요청을 통해 얻은 JSON타입의 Response 메세지 읽어오기
-            String result = getRequestResult(conn);
-
-            // Gson 라이브러리에 포함된 클래스로 JSON파싱 객체 생성
-            JsonElement element = new Gson().fromJson(result, JsonElement.class);
-            accessToken = element.getAsJsonObject().get("access_token").getAsString();
-
-            bw.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return accessToken;
     }
 
     public KakaoUserInfo getKakaoUserInfo(String token) {

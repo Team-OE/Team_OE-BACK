@@ -6,7 +6,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import project.backend.domain.jwt.service.JwtService;
 import project.backend.domain.member.dto.*;
 import project.backend.domain.member.entity.Member;
@@ -16,11 +15,9 @@ import project.backend.domain.member.service.LogoutTokenService;
 import project.backend.domain.member.service.MemberService;
 import project.backend.global.error.exception.BusinessException;
 import project.backend.global.error.exception.ErrorCode;
-import project.backend.global.s3.service.ImageService;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/members")
@@ -46,7 +43,6 @@ public class MemberController {
             value = "Member 조회 & 닉네임 조회(중복 검사)",
             notes = "1. AccessToken으로 조회할 경우 : Header의 Authorization에 accessToken을 넣어주세요.\n" +
                     "2. socialId와 socialType으로 조회할 경우 : ?socialId=abcdefg&socialType=KAKAO\n" +
-                    "3. nickname으로 조회할 경우 : ?nickname=닉네임입력" +
                     "" +
                     " - 해당 Member 없을 경우 -> 400에러, code : U001, message : 사용자를 찾을 수 없습니다.\n" +
                     " - socialType은 KAKAO와 APPLE만 가능합니다.")
@@ -54,9 +50,9 @@ public class MemberController {
     public ResponseEntity getMember(
             @RequestHeader(value = "Authorization", required = false) String accessToken,
             @RequestParam(required = false) String socialId,
-            @RequestParam(required = false) SocialType socialType,
-            @RequestParam(required = false) String nickname) {
+            @RequestParam(required = false) SocialType socialType) {
 
+        System.out.println(accessToken);
         Member member;
         if (accessToken != null) {
             member = jwtService.getMemberFromAccessToken(accessToken);
@@ -76,20 +72,11 @@ public class MemberController {
         return ResponseEntity.status(HttpStatus.OK).body(memberResponseDtoList);
     }
 
-    @ApiOperation(
-            value = "닉네임 & 프로필 이미지 등록, 온보딩 기능",
-            notes = " - 닉네임 변경 원할 시 : request -> {\"nickname\" : \"가방이\", \"marketingAgree\":\"AGREE\", \"pushAgree\":\"DISAGREE\"}\n" +
-                    " - 프로필 이미지 변경 원할 시 : profileImage -> MultipartFile으로 파일 입력 \n" +
-                    " - 온보딩 입력 & 수정 원힐 시 : categorys -> [\"기타\", \"영화\"] \n" +
-                    " - 닉네임과 온보딩 입력란은 application/json형식으로 요청해주세요.(swagger에서는 작동하지 않습니다.)" +
-                    " - Header의 AccessToken만 필수 값이고, 나머지는 필수 값이 아님")
+    @ApiOperation(value = "리프레시 토큰 수정")
     @RequestMapping(method = RequestMethod.PATCH, consumes = "multipart/form-data")
     public ResponseEntity patchMember(
             @RequestHeader("Authorization") String accessToken,
-            @RequestPart(value = "profileImage", required = false) MultipartFile profileImage,
-            @Valid @RequestPart(value = "request", required = false) MemberPatchRequestDto request,
-            @RequestPart(value = "categorys", required = false) List<String> categorys
-    ) {
+            @Valid @RequestBody MemberPatchRequestDto request) {
         Member member = jwtService.getMemberFromAccessToken(accessToken);
         if (request == null) {
             request = MemberPatchRequestDto.builder().build();

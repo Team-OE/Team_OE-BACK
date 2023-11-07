@@ -18,8 +18,6 @@ import java.util.List;
 @Transactional
 public class MemberService {
     private final MemberRepository memberRepository;
-    private final MemberMapper memberMapper;
-
 
     /**
      * socialId와 socialType 기준 Member 반환
@@ -46,19 +44,6 @@ public class MemberService {
                 .socialType(socialType).build();
         memberRepository.save(member);
         return member;
-    }
-
-    /**
-     * 닉네임 중복 검사
-     *
-     * @param nickname
-     * @return
-     */
-    @Transactional(readOnly = true)
-    public void verifiedNickname(String nickname) {
-        if (nickname != null && memberRepository.findAllByNickname(nickname).size() > 0) {
-            throw new BusinessException(ErrorCode.NICKNAME_DUPLICATE);
-        }
     }
 
     @Transactional(readOnly = true)
