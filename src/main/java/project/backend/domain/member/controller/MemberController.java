@@ -49,11 +49,11 @@ public class MemberController {
             @RequestHeader(value = "Authorization", required = false) String accessToken,
             @PathVariable(required = false) Long memberId) {
 
-        if (ObjectUtils.isEmpty(accessToken) && ObjectUtils.isEmpty(memberId)){
+        if (ObjectUtils.isEmpty(accessToken) && ObjectUtils.isEmpty(memberId)) {
             throw new BusinessException(ErrorCode.MISSING_REQUEST);
         }
 
-        if(!ObjectUtils.isEmpty(accessToken)) {
+        if (!ObjectUtils.isEmpty(accessToken)) {
             memberId = jwtService.getMemberFromAccessToken(accessToken).getId();
         }
 
@@ -91,7 +91,7 @@ public class MemberController {
 
 
     @ApiOperation(
-            value = "Member 조회 & 닉네임 조회(중복 검사)",
+            value = "Member 조회",
             notes = "1. AccessToken으로 조회할 경우 : Header의 Authorization에 accessToken을 넣어주세요.\n" +
                     "2. socialId와 socialType으로 조회할 경우 : ?social-id=abcdefg&social-type=KAKAO\n" +
                     "" +
@@ -124,28 +124,38 @@ public class MemberController {
         return ResponseEntity.status(HttpStatus.OK).body(memberResponseDtoList);
     }
 
-    @ApiIgnore
+    @ApiOperation(value = "닉네임 검증",
+            notes = "- 중복 확인\n" +
+                    "- 1자 ~ 10자 이내인지 확인")
+    @GetMapping("/verify")
+    public ResponseEntity verifyNickname(
+            @RequestParam(value = "nickname", required = false) String nickname) {
+        memberService.verifiedNickname(nickname);
+        return ResponseEntity.status(HttpStatus.OK).body(NicknameResponseDto.builder().nickname(nickname).message(nickname + " 은 사용 가능합니다.").build());
+    }
+
     @ApiOperation(value = "닉네임 & 프로필 이미지 수정",
-                    notes = "Authorization만 필수")
+            notes = "Authorization만 필수")
     @RequestMapping(method = RequestMethod.PATCH, consumes = "multipart/form-data")
     public ResponseEntity patchMember(
             @RequestHeader(value = "Authorization", required = false) String accessToken,
             @RequestPart(value = "nickname", required = false) String nickname,
             @RequestPart(value = "profileImage", required = false) MultipartFile profileImage) {
-        if (ObjectUtils.isEmpty(accessToken)){
+        if (ObjectUtils.isEmpty(accessToken)) {
             throw new BusinessException(ErrorCode.MISSING_REQUEST);
         }
 
         Member member = jwtService.getMemberFromAccessToken(accessToken);
 
-        if (!ObjectUtils.isEmpty(nickname)){
+        if (!ObjectUtils.isEmpty(nickname)) {
             memberService.patchMember(member.getId(), MemberPatchRequestDto.builder().nickname(nickname).build());
-        } if (!ObjectUtils.isEmpty(profileImage)){
+        }
+        if (!ObjectUtils.isEmpty(profileImage)) {
             memberService.patchMember(member.getId(),
                     MemberPatchRequestDto
-                        .builder()
-                        .profileUrl(imageService.updateImage(profileImage, "Member", "profileUrl"))
-                        .build()
+                            .builder()
+                            .profileUrl(imageService.updateImage(profileImage, "Member", "profileUrl"))
+                            .build()
             );
         }
         MemberResponseDto memberResponseDto = memberMapper.memberToMemberResponseDto(member);

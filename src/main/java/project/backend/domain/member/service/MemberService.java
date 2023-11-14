@@ -83,6 +83,8 @@ public class MemberService {
     public void verifiedNickname(String nickname) {
         if (nickname != null && memberRepository.findAllByNickname(nickname).size() > 0) {
             throw new BusinessException(ErrorCode.NICKNAME_DUPLICATE);
+        } else if (nickname.length() < 1 || nickname.length() > 10){
+            throw new BusinessException(ErrorCode.NICKNAME_DUPLICATE);
         }
     }
 

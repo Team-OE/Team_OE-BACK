@@ -28,6 +28,7 @@ public enum ErrorCode {
     NICKNAME_DUPLICATE(400, "M007", "닉네임이 중복되었습니다."),
     MEMBER_LOGOUT(400, "M008", "이미 로그아웃한 유저입니다."),
     MEMBER_ALREADY(400, "M009", "이미 가입한 유저입니다."),
+    NICKNAME_SIZE_BAD(400, "M010", "닉네임은 1자 ~ 10자 사이로 입력해주세요."),
 
     // Ticket
     TICKET_NOT_FOUND(400, "T001", "티켓을 찾을 수 없습니다."),
