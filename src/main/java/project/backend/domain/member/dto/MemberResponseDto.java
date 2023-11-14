@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class MemberResponseDto {
     public Long id;
+    public String nickname;
     public LocalDateTime createdDate;
     public LocalDateTime updatedDate;
 }

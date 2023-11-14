@@ -13,7 +13,7 @@ import project.backend.domain.member.entity.Member.MemberBuilder;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-11-14T22:22:26+0900",
+    date = "2023-11-15T00:30:58+0900",
     comments = "version: 1.4.2.Final, compiler: javac, environment: Java 11.0.16.1 (Oracle Corporation)"
 )
 @Component
@@ -57,6 +57,7 @@ public class MemberMapperImpl implements MemberMapper {
         MemberResponseDtoBuilder memberResponseDto = MemberResponseDto.builder();
 
         memberResponseDto.id( member.getId() );
+        memberResponseDto.nickname( member.getNickname() );
         memberResponseDto.createdDate( member.getCreatedDate() );
         memberResponseDto.updatedDate( member.getUpdatedDate() );
 

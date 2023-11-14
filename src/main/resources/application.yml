@@ -15,7 +15,7 @@ spring:
     database: mysql
     show-sql: true
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     properties:
       hibernate:
         format_sql: false
@@ -32,7 +32,7 @@ spring:
 cloud:
   aws:
     s3:
-      bucket: sumyo2323
+      bucket: insureprobucket
     credentials:
       access-key: ${OE_S3_ACCESS}
       secret-key: ${OE_S3_SECRET}
@@ -62,3 +62,4 @@ server:
     path: '/error'
     whitelabel:
       enabled: true
+

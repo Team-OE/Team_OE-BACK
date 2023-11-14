@@ -4,16 +4,25 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.processing.Generated;
 import org.springframework.stereotype.Component;
+import project.backend.domain.category.dto.CategoryResponseDto;
+import project.backend.domain.category.dto.CategoryResponseDto.CategoryResponseDtoBuilder;
+import project.backend.domain.category.entity.Category;
 import project.backend.domain.feed.dto.FeedPatchRequestDto;
 import project.backend.domain.feed.dto.FeedPostRequestDto;
 import project.backend.domain.feed.dto.FeedResponseDto;
 import project.backend.domain.feed.dto.FeedResponseDto.FeedResponseDtoBuilder;
 import project.backend.domain.feed.entity.Feed;
 import project.backend.domain.feed.entity.Feed.FeedBuilder;
+import project.backend.domain.hashtag.dto.HashtagResponseDto;
+import project.backend.domain.hashtag.dto.HashtagResponseDto.HashtagResponseDtoBuilder;
+import project.backend.domain.hashtag.entity.Hashtag;
+import project.backend.domain.member.dto.MemberResponseDto;
+import project.backend.domain.member.dto.MemberResponseDto.MemberResponseDtoBuilder;
+import project.backend.domain.member.entity.Member;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-11-14T22:22:26+0900",
+    date = "2023-11-15T00:30:57+0900",
     comments = "version: 1.4.2.Final, compiler: javac, environment: Java 11.0.16.1 (Oracle Corporation)"
 )
 @Component
@@ -77,6 +86,9 @@ public class FeedMapperImpl implements FeedMapper {
         feedResponseDto.viewCount( feed.getViewCount() );
         feedResponseDto.createdDate( feed.getCreatedDate() );
         feedResponseDto.updatedDate( feed.getUpdatedDate() );
+        feedResponseDto.hashtag( hashtagToHashtagResponseDto( feed.getHashtag() ) );
+        feedResponseDto.member( memberToMemberResponseDto( feed.getMember() ) );
+        feedResponseDto.category( categoryToCategoryResponseDto( feed.getCategory() ) );
 
         return feedResponseDto.build();
     }
@@ -93,5 +105,44 @@ public class FeedMapperImpl implements FeedMapper {
         }
 
         return list;
+    }
+
+    protected HashtagResponseDto hashtagToHashtagResponseDto(Hashtag hashtag) {
+        if ( hashtag == null ) {
+            return null;
+        }
+
+        HashtagResponseDtoBuilder hashtagResponseDto = HashtagResponseDto.builder();
+
+        hashtagResponseDto.name( hashtag.getName() );
+
+        return hashtagResponseDto.build();
+    }
+
+    protected MemberResponseDto memberToMemberResponseDto(Member member) {
+        if ( member == null ) {
+            return null;
+        }
+
+        MemberResponseDtoBuilder memberResponseDto = MemberResponseDto.builder();
+
+        memberResponseDto.id( member.getId() );
+        memberResponseDto.nickname( member.getNickname() );
+        memberResponseDto.createdDate( member.getCreatedDate() );
+        memberResponseDto.updatedDate( member.getUpdatedDate() );
+
+        return memberResponseDto.build();
+    }
+
+    protected CategoryResponseDto categoryToCategoryResponseDto(Category category) {
+        if ( category == null ) {
+            return null;
+        }
+
+        CategoryResponseDtoBuilder categoryResponseDto = CategoryResponseDto.builder();
+
+        categoryResponseDto.name( category.getName() );
+
+        return categoryResponseDto.build();
     }
 }

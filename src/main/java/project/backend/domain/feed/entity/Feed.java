@@ -118,4 +118,14 @@ public class Feed extends BaseEntity {
         this.category = Optional.ofNullable(category).orElse(this.category);
         this.category.getFeeds().add(this);
     }
+
+    public void setHashtag(Hashtag hashtag) {
+        if (this.hashtag != null) {
+            if (this.hashtag.getFeeds().contains(this)) {
+                this.hashtag.getFeeds().remove(this);
+            }
+        }
+        this.hashtag = Optional.ofNullable(hashtag).orElse(this.hashtag);
+        this.hashtag.getFeeds().add(this);
+    }
 }

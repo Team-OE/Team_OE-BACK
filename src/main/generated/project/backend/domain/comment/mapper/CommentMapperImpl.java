@@ -10,10 +10,13 @@ import project.backend.domain.comment.dto.CommentResponseDto;
 import project.backend.domain.comment.dto.CommentResponseDto.CommentResponseDtoBuilder;
 import project.backend.domain.comment.entity.Comment;
 import project.backend.domain.comment.entity.Comment.CommentBuilder;
+import project.backend.domain.member.dto.MemberResponseDto;
+import project.backend.domain.member.dto.MemberResponseDto.MemberResponseDtoBuilder;
+import project.backend.domain.member.entity.Member;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-11-14T22:22:26+0900",
+    date = "2023-11-15T00:30:57+0900",
     comments = "version: 1.4.2.Final, compiler: javac, environment: Java 11.0.16.1 (Oracle Corporation)"
 )
 @Component
@@ -54,6 +57,9 @@ public class CommentMapperImpl implements CommentMapper {
         CommentResponseDtoBuilder commentResponseDto = CommentResponseDto.builder();
 
         commentResponseDto.content( comment.getContent() );
+        commentResponseDto.createdDate( comment.getCreatedDate() );
+        commentResponseDto.updatedDate( comment.getUpdatedDate() );
+        commentResponseDto.member( memberToMemberResponseDto( comment.getMember() ) );
 
         return commentResponseDto.build();
     }
@@ -70,5 +76,20 @@ public class CommentMapperImpl implements CommentMapper {
         }
 
         return list;
+    }
+
+    protected MemberResponseDto memberToMemberResponseDto(Member member) {
+        if ( member == null ) {
+            return null;
+        }
+
+        MemberResponseDtoBuilder memberResponseDto = MemberResponseDto.builder();
+
+        memberResponseDto.id( member.getId() );
+        memberResponseDto.nickname( member.getNickname() );
+        memberResponseDto.createdDate( member.getCreatedDate() );
+        memberResponseDto.updatedDate( member.getUpdatedDate() );
+
+        return memberResponseDto.build();
     }
 }

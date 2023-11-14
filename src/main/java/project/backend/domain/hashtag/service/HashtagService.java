@@ -21,10 +21,15 @@ public class HashtagService {
     private final HashtagMapper hashtagMapper;
 
     public Hashtag createHashtag(HashtagPostRequestDto hashtagPostRequestDto){
-        Hashtag hashtag = Hashtag.builder()
-                .name(hashtagPostRequestDto.getName()).build();
-        hashtagRepository.save(hashtag);
-        return hashtag;
+        List<Hashtag> hashtagList = hashtagRepository.findAllByName(hashtagPostRequestDto.getName());
+        if (hashtagList.size() < 1) {
+            Hashtag hashtag = Hashtag.builder()
+                    .name(hashtagPostRequestDto.getName()).build();
+            hashtagRepository.save(hashtag);
+            return hashtag;
+        } else {
+            return hashtagList.get(0);
+        }
     }
 
     public Hashtag getHashtag(Long id) {

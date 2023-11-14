@@ -45,6 +45,10 @@ public class CategoryService {
         categoryRepository.delete(verifiedCategory(id));
     }
 
+    public Category verifiedCategoryName(String name) {
+        return categoryRepository.findOneByName(name).orElseThrow(() -> new BusinessException(ErrorCode.CATEGORY_NOT_FOUND));
+    }
+
     private Category verifiedCategory(Long id) {
         return categoryRepository.findById(id).orElseThrow(() -> new BusinessException(ErrorCode.CATEGORY_NOT_FOUND));
     }

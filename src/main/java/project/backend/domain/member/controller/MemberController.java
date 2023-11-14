@@ -93,7 +93,7 @@ public class MemberController {
     @ApiOperation(
             value = "Member 조회",
             notes = "1. AccessToken으로 조회할 경우 : Header의 Authorization에 accessToken을 넣어주세요.\n" +
-                    "2. socialId와 socialType으로 조회할 경우 : ?social-id=abcdefg&social-type=KAKAO\n" +
+                    "2. social-id와 social-type으로 조회할 경우 : ?social-id=abcdefg&social-type=KAKAO\n" +
                     "" +
                     " - 해당 Member 없을 경우 -> 400에러, code : U001, message : 사용자를 찾을 수 없습니다.\n" +
                     " - socialType은 KAKAO, APPLE, GOOGLE만 가능합니다.")

@@ -19,7 +19,7 @@ import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.List;
 
-@Api(tags = "해시태그 API")
+@Api(tags = "해시태그 API  - 완료 API(프론트 작업 가능)")
 @RestController
 @RequestMapping("/api/hashtags")
 @RequiredArgsConstructor
@@ -49,7 +49,7 @@ public class HashtagController {
         return ResponseEntity.status(HttpStatus.OK).body(hashtagResponseDto);
     }
 
-    @ApiOperation(value = "카테고리 목록 조회(재난, 시위, 축제)")
+    @ApiOperation(value = "해시태그 목록 조회")
     @GetMapping
     public ResponseEntity getHashtagList() {
         List<HashtagResponseDto> hashtagResponseDtoList = hashtagMapper.hashtagsToHashtagResponseDtos(hashtagService.getHashtagList());

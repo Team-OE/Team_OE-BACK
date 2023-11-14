@@ -34,7 +34,7 @@ public class ImageService {
         }
 
         // File Path 설정
-        String uploadFilePath = entityName + "/" + columnName; // 엔티티명.컬럼명 폴더가 만들어짐
+        String uploadFilePath = "OE/" + entityName + "/" + columnName; // 엔티티명.컬럼명 폴더가 만들어짐
 
         // File 이름 설정
         String uploadFileName = getUploadFileName(file);
