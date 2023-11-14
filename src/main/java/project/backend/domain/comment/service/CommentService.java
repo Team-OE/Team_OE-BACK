@@ -34,10 +34,10 @@ public class CommentService {
 
         Comment comment = Comment.builder()
                 .content(commentPostRequestDto.getContent()).build();
+        commentRepository.save(comment);
 
         comment.setMember(member);
         comment.setFeed(feed);
-        commentRepository.save(comment);
         return comment;
     }
 

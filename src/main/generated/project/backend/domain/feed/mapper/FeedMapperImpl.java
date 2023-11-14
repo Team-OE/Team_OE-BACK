@@ -7,6 +7,9 @@ import org.springframework.stereotype.Component;
 import project.backend.domain.category.dto.CategoryResponseDto;
 import project.backend.domain.category.dto.CategoryResponseDto.CategoryResponseDtoBuilder;
 import project.backend.domain.category.entity.Category;
+import project.backend.domain.comment.dto.CommentResponseDto;
+import project.backend.domain.comment.dto.CommentResponseDto.CommentResponseDtoBuilder;
+import project.backend.domain.comment.entity.Comment;
 import project.backend.domain.feed.dto.FeedPatchRequestDto;
 import project.backend.domain.feed.dto.FeedPostRequestDto;
 import project.backend.domain.feed.dto.FeedResponseDto;
@@ -22,7 +25,7 @@ import project.backend.domain.member.entity.Member;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-11-15T00:30:57+0900",
+    date = "2023-11-15T01:27:29+0900",
     comments = "version: 1.4.2.Final, compiler: javac, environment: Java 11.0.16.1 (Oracle Corporation)"
 )
 @Component
@@ -89,6 +92,7 @@ public class FeedMapperImpl implements FeedMapper {
         feedResponseDto.hashtag( hashtagToHashtagResponseDto( feed.getHashtag() ) );
         feedResponseDto.member( memberToMemberResponseDto( feed.getMember() ) );
         feedResponseDto.category( categoryToCategoryResponseDto( feed.getCategory() ) );
+        feedResponseDto.comments( commentListToCommentResponseDtoList( feed.getComments() ) );
 
         return feedResponseDto.build();
     }
@@ -144,5 +148,33 @@ public class FeedMapperImpl implements FeedMapper {
         categoryResponseDto.name( category.getName() );
 
         return categoryResponseDto.build();
+    }
+
+    protected CommentResponseDto commentToCommentResponseDto(Comment comment) {
+        if ( comment == null ) {
+            return null;
+        }
+
+        CommentResponseDtoBuilder commentResponseDto = CommentResponseDto.builder();
+
+        commentResponseDto.content( comment.getContent() );
+        commentResponseDto.createdDate( comment.getCreatedDate() );
+        commentResponseDto.updatedDate( comment.getUpdatedDate() );
+        commentResponseDto.member( memberToMemberResponseDto( comment.getMember() ) );
+
+        return commentResponseDto.build();
+    }
+
+    protected List<CommentResponseDto> commentListToCommentResponseDtoList(List<Comment> list) {
+        if ( list == null ) {
+            return null;
+        }
+
+        List<CommentResponseDto> list1 = new ArrayList<CommentResponseDto>( list.size() );
+        for ( Comment comment : list ) {
+            list1.add( commentToCommentResponseDto( comment ) );
+        }
+
+        return list1;
     }
 }
