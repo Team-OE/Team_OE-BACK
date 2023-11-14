@@ -20,7 +20,7 @@ import springfox.documentation.annotations.ApiIgnore;
 import java.nio.file.Path;
 import java.util.List;
 
-@Api(tags = "좋아요 API - 완료 API(프론트 작업 가능)")
+@Api(tags = "좋아요 API")
 @RestController
 @RequestMapping("/api/feedLikes")
 @RequiredArgsConstructor

@@ -16,7 +16,7 @@ import project.backend.domain.member.entity.Member;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-11-15T01:27:29+0900",
+    date = "2023-11-15T01:53:24+0900",
     comments = "version: 1.4.2.Final, compiler: javac, environment: Java 11.0.16.1 (Oracle Corporation)"
 )
 @Component
@@ -56,6 +56,7 @@ public class CommentMapperImpl implements CommentMapper {
 
         CommentResponseDtoBuilder commentResponseDto = CommentResponseDto.builder();
 
+        commentResponseDto.id( comment.getId() );
         commentResponseDto.content( comment.getContent() );
         commentResponseDto.createdDate( comment.getCreatedDate() );
         commentResponseDto.updatedDate( comment.getUpdatedDate() );

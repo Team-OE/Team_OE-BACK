@@ -47,7 +47,8 @@ public class SwaggerConfig {
     private ApiInfo getApiInfo() {
         return new ApiInfoBuilder()
                 .title("오이(OE) API 문서")
-                .description("오늘 이것만은 알아야 한다! ‘오이\uD83E\uDD52’로 실시간 내 주변 축제, 재난, 시위정보 찾기")
+                .description("수정 사항은 여기(https://illustrious-hole-1ef.notion.site/f3159ae3b9ad491a85342afba363fed5?pvs=4) 업로드 부탁드립니다! \n" +
+                            "오늘 이것만은 알아야 한다! ‘오이\uD83E\uDD52’로 실시간 내 주변 축제, 재난, 시위정보 찾기\n")
                 .contact(new Contact("김가영", "https://github.com/Team-OE/Team_OE-BACK", "offbeat1020@naver.com"))
                 .version("1.0")
                 .build();
