@@ -33,8 +33,12 @@ public enum ErrorCode {
     // FEED
     FEED_NOT_FOUND(400, "T001", "게시글을 찾을 수 없습니다."),
     FEED_DELETE_FAIL(400, "T002", "내 게시글만 삭제할 수 있습니다."),
-    FEED_VIEW_FAIL(400, "T003", "내 게시글 또는 전체 공개 티켓만 조회할 수 있습니다."),
     FEED_PATCH_FAIL(400, "T004", "내 게시글만 수정할 수 있습니다."),
+
+    // COMMENT
+    COMMENT_NOT_FOUND(400, "C001", "댓글을 찾을 수 없습니다."),
+    COMMENT_DELETE_FAIL(400, "C002", "내 댓글만 삭제할 수 있습니다."),
+    COMMENT_PATCH_FAIL(400, "C004", "내 댓글만 수정할 수 있습니다."),
 
     // Feed
     CATEGORY_NOT_FOUND(400, "CA001", "카테고리를 찾을 수 없습니다.")

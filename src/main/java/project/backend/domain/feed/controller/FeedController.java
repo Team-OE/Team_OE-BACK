@@ -23,7 +23,7 @@ import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.List;
 
-@Api(tags = "게시글 API")
+@Api(tags = "게시글 API - 목록 조회 & 지도 조회 제외한 모든 기능 구현 완료(일부분 프론트 개발 가능)")
 @RestController
 @RequestMapping("/api/feeds")
 @RequiredArgsConstructor

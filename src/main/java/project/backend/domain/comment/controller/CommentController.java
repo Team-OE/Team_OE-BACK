@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.List;
 
@@ -27,17 +28,20 @@ public class CommentController {
     private final CommentService commentService;
     private final CommentMapper commentMapper;
 
-
+    @ApiOperation(value = "댓글 작성하기",
+    notes = " - request : {\"content\" : \"댓글 내용 작성(필수)\", \"feedId\" : \"게시글 id(필수)\" }\n" +
+            " - header('Authorization') : access Token(필수)")
     @PostMapping
-    public ResponseEntity postComment(@RequestBody(required = false) CommentPostRequestDto commentPostRequestDto) {
-        if (ObjectUtils.isEmpty(commentPostRequestDto)){
+    public ResponseEntity postComment(@RequestBody(required = false) CommentPostRequestDto request,
+                                      @RequestHeader(value = "Authorization", required = false) String accessToken) {
+        if (ObjectUtils.isEmpty(request) || ObjectUtils.isEmpty(accessToken)){
             throw new BusinessException(ErrorCode.MISSING_REQUEST);
         }
-        Comment comment = commentService.createComment(commentPostRequestDto);
+        Comment comment = commentService.createComment(accessToken, request);
         return ResponseEntity.status(HttpStatus.CREATED).body(commentMapper.commentToCommentResponseDto(comment));
     }
 
-    @ApiOperation(value = "공지 목록")
+    @ApiIgnore
     @GetMapping("/{commentId}")
     public ResponseEntity getComment(@PathVariable(required = false) Long commentId) {
         if (ObjectUtils.isEmpty(commentId)){
@@ -47,12 +51,14 @@ public class CommentController {
         return ResponseEntity.status(HttpStatus.OK).body(commentResponseDto);
     }
 
+    @ApiIgnore
     @GetMapping
     public ResponseEntity getCommentList() {
         List<CommentResponseDto> commentResponseDtoList = commentMapper.commentsToCommentResponseDtos(commentService.getCommentList());
         return ResponseEntity.status(HttpStatus.OK).body(commentResponseDtoList);
     }
 
+    @ApiIgnore
     @PatchMapping("/{commentId}")
     public ResponseEntity putComment(
             @PathVariable(required = false) Long commentId,
@@ -64,12 +70,16 @@ public class CommentController {
         return ResponseEntity.status(HttpStatus.OK).body(commentResponseDto);
     }
 
+    @ApiOperation(value = "댓글 삭제하기(내 댓글만)",
+            notes = " - commentId : 댓글 id(필수)\n" +
+                    " - header('Authorization') : access Token(필수)")
     @DeleteMapping("/{commentId}")
-    public ResponseEntity deleteComment(@PathVariable(required = false) Long commentId) {
-        if (ObjectUtils.isEmpty(commentId)){
+    public ResponseEntity deleteComment(@PathVariable(required = false) Long commentId,
+                                        @RequestHeader(value = "Authorization", required = false) String accessToken) {
+        if (ObjectUtils.isEmpty(commentId) || ObjectUtils.isEmpty(accessToken)){
             throw new BusinessException(ErrorCode.MISSING_REQUEST);
         }
-        commentService.deleteComment(commentId);
+        commentService.deleteComment(accessToken, commentId);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
     }
 }
