@@ -61,6 +61,9 @@ public class MemberService {
     }
 
     public Member patchMember(Long id, MemberPatchRequestDto memberPatchRequestDto) {
+        if (memberPatchRequestDto.getNickname() != null) {
+            verifiedNickname(memberPatchRequestDto.getNickname());
+        }
         Member member = verifiedMember(id).patchMember(memberPatchRequestDto);
         memberRepository.save(member);
         return member;
@@ -70,6 +73,24 @@ public class MemberService {
         memberRepository.delete(verifiedMember(id));
     }
 
+    /**
+     * 닉네임 중복 검사
+     *
+     * @param nickname
+     * @return
+     */
+    @Transactional(readOnly = true)
+    public void verifiedNickname(String nickname) {
+        if (nickname != null && memberRepository.findAllByNickname(nickname).size() > 0) {
+            throw new BusinessException(ErrorCode.NICKNAME_DUPLICATE);
+        }
+    }
+
+    /**
+     * Member 유효성 검사
+     * @param id
+     * @return
+     */
     public Member verifiedMember(Long id) {
         return memberRepository.findById(id).orElseThrow(() -> new BusinessException(ErrorCode.MEMBER_NOT_FOUND));
     }

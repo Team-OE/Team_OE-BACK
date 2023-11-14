@@ -3,6 +3,7 @@ package project.backend.domain.member.controller;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import org.springframework.util.ObjectUtils;
+import org.springframework.web.multipart.MultipartFile;
 import project.backend.domain.jwt.response.JwtResponse;
 import project.backend.domain.jwt.response.TokenResponse;
 import project.backend.domain.jwt.service.JwtService;
@@ -23,6 +24,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import project.backend.global.s3.service.ImageService;
 import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.List;
@@ -37,6 +39,7 @@ public class MemberController {
     private final MemberMapper memberMapper;
     private final JwtService jwtService;
     private final LogoutTokenService logoutTokenService;
+    private final ImageService imageService;
 
     @ApiOperation(
             value = "회원 정보 얻기",
@@ -62,7 +65,8 @@ public class MemberController {
             value = "회원가입 & 로그인",
             notes = " - request : {\"socialId\" :\"abcde2\", \"socialType\":\"KAKAO\"}\n" +
                     "1. socialId, socialType은 필수\n" +
-                    "2. socialType은 \"KAKAO\", \"APPLE\", \"GOOGLE\"만 가능합니다.")
+                    "2. socialType은 \"KAKAO\", \"APPLE\", \"GOOGLE\"만 가능합니다.\n" +
+                    "3. 없으면 계정이 자동 생성되므로 회원가입과 로그인을 통합합니다.")
     @PostMapping("/login")
     public ResponseEntity login(
             @Valid @RequestBody MemberPostRequestDto request) {
@@ -121,16 +125,30 @@ public class MemberController {
     }
 
     @ApiIgnore
-    @ApiOperation(value = "리프레시 토큰 수정")
+    @ApiOperation(value = "닉네임 & 프로필 이미지 수정",
+                    notes = "Authorization만 필수")
     @RequestMapping(method = RequestMethod.PATCH, consumes = "multipart/form-data")
     public ResponseEntity patchMember(
-            @RequestHeader("Authorization") String accessToken,
-            @Valid @RequestBody MemberPatchRequestDto request) {
-        Member member = jwtService.getMemberFromAccessToken(accessToken);
-        if (request == null) {
-            request = MemberPatchRequestDto.builder().build();
+            @RequestHeader(value = "Authorization", required = false) String accessToken,
+            @RequestPart(value = "nickname", required = false) String nickname,
+            @RequestPart(value = "profileImage", required = false) MultipartFile profileImage) {
+        if (ObjectUtils.isEmpty(accessToken)){
+            throw new BusinessException(ErrorCode.MISSING_REQUEST);
         }
-        MemberResponseDto memberResponseDto = memberMapper.memberToMemberResponseDto(memberService.patchMember(member.getId(), request));
+
+        Member member = jwtService.getMemberFromAccessToken(accessToken);
+
+        if (!ObjectUtils.isEmpty(nickname)){
+            memberService.patchMember(member.getId(), MemberPatchRequestDto.builder().nickname(nickname).build());
+        } if (!ObjectUtils.isEmpty(profileImage)){
+            memberService.patchMember(member.getId(),
+                    MemberPatchRequestDto
+                        .builder()
+                        .profileUrl(imageService.updateImage(profileImage, "Member", "profileUrl"))
+                        .build()
+            );
+        }
+        MemberResponseDto memberResponseDto = memberMapper.memberToMemberResponseDto(member);
         return ResponseEntity.status(HttpStatus.OK).body(memberResponseDto);
     }
 
