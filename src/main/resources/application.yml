@@ -34,8 +34,8 @@ cloud:
     s3:
       bucket: sumyo2323
     credentials:
-      access-key: ${SUMYO_S3_ACCESS}
-      secret-key: ${SUMYO_S3_SECRET}
+      access-key: ${OE_S3_ACCESS}
+      secret-key: ${OE_S3_SECRET}
     region:
       static: ap-northeast-2
       auto: false
@@ -47,7 +47,7 @@ logging:
     project.backend: debug
 
 jwt:
-  secret: ${SUMYO_SECRET}
+  secret: ${OE_SECRET}
 
 server:
   port: 443
