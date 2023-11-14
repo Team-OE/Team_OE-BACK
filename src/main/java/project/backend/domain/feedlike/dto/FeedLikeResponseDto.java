@@ -7,5 +7,5 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class FeedLikeResponseDto {
-    public String name;
+    public Boolean isLike;
 }
