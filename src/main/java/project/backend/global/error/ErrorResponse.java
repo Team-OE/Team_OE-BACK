@@ -1,11 +1,11 @@
 package project.backend.global.error;
 
+import project.backend.global.error.exception.ErrorCode;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
-import project.backend.global.error.exception.ErrorCode;
 
 import java.util.ArrayList;
 import java.util.List;

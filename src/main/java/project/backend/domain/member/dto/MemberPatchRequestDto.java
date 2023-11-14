@@ -2,9 +2,6 @@ package project.backend.domain.member.dto;
 
 import lombok.*;
 
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
-
 
 @Getter
 @Setter
@@ -12,5 +9,7 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 @AllArgsConstructor
 public class MemberPatchRequestDto {
+    public String nickname;
+    public String profileUrl;
     public String refreshToken;
 }

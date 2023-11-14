@@ -1,15 +1,14 @@
 package project.backend.domain.member.service;
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import project.backend.domain.member.dto.MemberPatchRequestDto;
 import project.backend.domain.member.entity.Member;
 import project.backend.domain.member.entity.SocialType;
-import project.backend.domain.member.mapper.MemberMapper;
 import project.backend.domain.member.repository.MemberRepository;
 import project.backend.global.error.exception.BusinessException;
 import project.backend.global.error.exception.ErrorCode;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 

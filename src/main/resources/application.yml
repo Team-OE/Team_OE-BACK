@@ -2,20 +2,20 @@ spring:
 
   servlet:
     multipart:
-      max-file-size: 20MB
-      max-request-size: 20MB
+      max-file-size: 5MB
+      max-request-size: 5MB
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: ${SUMYO_DB_URL}
-    username: ${SUMYO_DB_USER}
-    password: ${SUMYO_DB_PW}
+    url: ${OE_DB_URL}
+    username: ${OE_DB_USER}
+    password: ${OE_DB_PW}
 
   jpa:
     database: mysql
     show-sql: false
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     properties:
       hibernate:
         format_sql: false
@@ -23,6 +23,7 @@ spring:
         globally_quoted_identifiers: false
     generate-ddl: true
     database-platform: org.hibernate.dialect.MySQL8Dialect
+
 
   mvc:
     pathmatch:
@@ -49,9 +50,15 @@ jwt:
   secret: ${SUMYO_SECRET}
 
 server:
-  port: 8080
+  port: 443
+  ssl:
+    key-store: classpath:keystore.p12
+    key-store-type: PKCS12
+    key-alias: OE
+    key-store-password: ${OE_SSL_PW}
+    enabled: true
   error:
-    include-exception: true     # 응답에 exception의 내용을 포함할지 여부
-    path: '/error'               # 응답을 처리할 Handler의 경로
+    include-exception: true
+    path: '/error'
     whitelabel:
-      enabled: true             # 서버 오류 발생시 브라우저에 보여줄 기본 페이지 생성 여부
+      enabled: true

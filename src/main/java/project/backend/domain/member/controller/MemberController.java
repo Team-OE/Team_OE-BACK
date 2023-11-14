@@ -1,11 +1,5 @@
 package project.backend.domain.member.controller;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
 import project.backend.domain.jwt.service.JwtService;
 import project.backend.domain.member.dto.*;
 import project.backend.domain.member.entity.Member;
@@ -15,8 +9,14 @@ import project.backend.domain.member.service.LogoutTokenService;
 import project.backend.domain.member.service.MemberService;
 import project.backend.global.error.exception.BusinessException;
 import project.backend.global.error.exception.ErrorCode;
-
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import javax.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @RestController

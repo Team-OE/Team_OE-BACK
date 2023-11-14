@@ -1,11 +1,11 @@
 package project.backend.domain.member.mapper;
 
-import org.mapstruct.Mapper;
-import org.mapstruct.ReportingPolicy;
 import project.backend.domain.member.dto.MemberPatchRequestDto;
 import project.backend.domain.member.dto.MemberPostRequestDto;
 import project.backend.domain.member.dto.MemberResponseDto;
 import project.backend.domain.member.entity.Member;
+import org.mapstruct.Mapper;
+import org.mapstruct.ReportingPolicy;
 
 import java.util.List;
 

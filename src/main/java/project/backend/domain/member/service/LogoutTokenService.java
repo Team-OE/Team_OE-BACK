@@ -1,10 +1,10 @@
 package project.backend.domain.member.service;
 
+import project.backend.domain.member.entity.LogoutToken;
+import project.backend.domain.member.repository.LogoutTokenRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import project.backend.domain.member.entity.LogoutToken;
-import project.backend.domain.member.repository.LogoutTokenRepository;
 
 @Service
 @RequiredArgsConstructor

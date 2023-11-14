@@ -13,7 +13,7 @@ import project.backend.domain.member.entity.Member.MemberBuilder;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-11-08T01:07:20+0900",
+    date = "2023-11-14T21:56:27+0900",
     comments = "version: 1.4.2.Final, compiler: IncrementalProcessingEnvironment from gradle-language-java-8.3.jar, environment: Java 11.0.16.1 (Oracle Corporation)"
 )
 @Component
@@ -41,6 +41,8 @@ public class MemberMapperImpl implements MemberMapper {
 
         MemberBuilder member = Member.builder();
 
+        member.nickname( memberPatchRequestDto.getNickname() );
+        member.profileUrl( memberPatchRequestDto.getProfileUrl() );
         member.refreshToken( memberPatchRequestDto.getRefreshToken() );
 
         return member.build();
