@@ -35,7 +35,7 @@ public class QFeed extends EntityPathBase<Feed> {
 
     public final ListPath<project.backend.domain.feedlike.entity.FeedLike, project.backend.domain.feedlike.entity.QFeedLike> feedLikes = this.<project.backend.domain.feedlike.entity.FeedLike, project.backend.domain.feedlike.entity.QFeedLike>createList("feedLikes", project.backend.domain.feedlike.entity.FeedLike.class, project.backend.domain.feedlike.entity.QFeedLike.class, PathInits.DIRECT2);
 
-    public final StringPath hashtag = createString("hashtag");
+    public final project.backend.domain.hashtag.entity.QHashtag hashtag;
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
@@ -79,6 +79,7 @@ public class QFeed extends EntityPathBase<Feed> {
     public QFeed(Class<? extends Feed> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
         this.category = inits.isInitialized("category") ? new project.backend.domain.category.entity.QCategory(forProperty("category")) : null;
+        this.hashtag = inits.isInitialized("hashtag") ? new project.backend.domain.hashtag.entity.QHashtag(forProperty("hashtag")) : null;
         this.member = inits.isInitialized("member") ? new project.backend.domain.member.entity.QMember(forProperty("member")) : null;
     }
 

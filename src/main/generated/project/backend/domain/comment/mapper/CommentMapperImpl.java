@@ -13,8 +13,8 @@ import project.backend.domain.comment.entity.Comment.CommentBuilder;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-11-14T21:56:27+0900",
-    comments = "version: 1.4.2.Final, compiler: IncrementalProcessingEnvironment from gradle-language-java-8.3.jar, environment: Java 11.0.16.1 (Oracle Corporation)"
+    date = "2023-11-14T22:22:26+0900",
+    comments = "version: 1.4.2.Final, compiler: javac, environment: Java 11.0.16.1 (Oracle Corporation)"
 )
 @Component
 public class CommentMapperImpl implements CommentMapper {

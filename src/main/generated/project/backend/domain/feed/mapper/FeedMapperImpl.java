@@ -13,8 +13,8 @@ import project.backend.domain.feed.entity.Feed.FeedBuilder;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-11-14T21:56:26+0900",
-    comments = "version: 1.4.2.Final, compiler: IncrementalProcessingEnvironment from gradle-language-java-8.3.jar, environment: Java 11.0.16.1 (Oracle Corporation)"
+    date = "2023-11-14T22:22:26+0900",
+    comments = "version: 1.4.2.Final, compiler: javac, environment: Java 11.0.16.1 (Oracle Corporation)"
 )
 @Component
 public class FeedMapperImpl implements FeedMapper {
@@ -32,7 +32,6 @@ public class FeedMapperImpl implements FeedMapper {
         feed.imageUrl1( feedPostRequestDto.getImageUrl1() );
         feed.imageUrl2( feedPostRequestDto.getImageUrl2() );
         feed.imageUrl3( feedPostRequestDto.getImageUrl3() );
-        feed.hashtag( feedPostRequestDto.getHashtag() );
         feed.latitude( feedPostRequestDto.getLatitude() );
         feed.longitude( feedPostRequestDto.getLongitude() );
 
@@ -52,7 +51,6 @@ public class FeedMapperImpl implements FeedMapper {
         feed.imageUrl1( feedPatchRequestDto.getImageUrl1() );
         feed.imageUrl2( feedPatchRequestDto.getImageUrl2() );
         feed.imageUrl3( feedPatchRequestDto.getImageUrl3() );
-        feed.hashtag( feedPatchRequestDto.getHashtag() );
         feed.latitude( feedPatchRequestDto.getLatitude() );
         feed.longitude( feedPatchRequestDto.getLongitude() );
 
@@ -73,7 +71,6 @@ public class FeedMapperImpl implements FeedMapper {
         feedResponseDto.imageUrl1( feed.getImageUrl1() );
         feedResponseDto.imageUrl2( feed.getImageUrl2() );
         feedResponseDto.imageUrl3( feed.getImageUrl3() );
-        feedResponseDto.hashtag( feed.getHashtag() );
         feedResponseDto.latitude( feed.getLatitude() );
         feedResponseDto.longitude( feed.getLongitude() );
         feedResponseDto.likeCount( feed.getLikeCount() );

@@ -1,4 +1,4 @@
-package project.backend.domain.category.entity;
+package project.backend.domain.hashtag.entity;
 
 import static com.querydsl.core.types.PathMetadataFactory.*;
 
@@ -11,14 +11,14 @@ import com.querydsl.core.types.dsl.PathInits;
 
 
 /**
- * QCategory is a Querydsl query type for Category
+ * QHashtag is a Querydsl query type for Hashtag
  */
 @Generated("com.querydsl.codegen.DefaultEntitySerializer")
-public class QCategory extends EntityPathBase<Category> {
+public class QHashtag extends EntityPathBase<Hashtag> {
 
-    private static final long serialVersionUID = -1493050732L;
+    private static final long serialVersionUID = 870813310L;
 
-    public static final QCategory category = new QCategory("category");
+    public static final QHashtag hashtag = new QHashtag("hashtag");
 
     public final project.backend.domain.common.entity.QBaseEntity _super = new project.backend.domain.common.entity.QBaseEntity(this);
 
@@ -34,16 +34,16 @@ public class QCategory extends EntityPathBase<Category> {
     //inherited
     public final DateTimePath<java.time.LocalDateTime> updatedDate = _super.updatedDate;
 
-    public QCategory(String variable) {
-        super(Category.class, forVariable(variable));
+    public QHashtag(String variable) {
+        super(Hashtag.class, forVariable(variable));
     }
 
-    public QCategory(Path<? extends Category> path) {
+    public QHashtag(Path<? extends Hashtag> path) {
         super(path.getType(), path.getMetadata());
     }
 
-    public QCategory(PathMetadata metadata) {
-        super(Category.class, metadata);
+    public QHashtag(PathMetadata metadata) {
+        super(Hashtag.class, metadata);
     }
 
 }

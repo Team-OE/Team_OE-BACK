@@ -27,7 +27,6 @@ public class FeedService {
                 .imageUrl1(feedPostRequestDto.getImageUrl1())
                 .imageUrl2(feedPostRequestDto.getImageUrl2())
                 .imageUrl3(feedPostRequestDto.getImageUrl3())
-                .hashtag(feedPostRequestDto.getHashtag())
                 .latitude(feedPostRequestDto.getLatitude())
                 .longitude(feedPostRequestDto.getLongitude())
                 .build();

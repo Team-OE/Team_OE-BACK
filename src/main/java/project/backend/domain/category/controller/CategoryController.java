@@ -19,7 +19,7 @@ import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.List;
 
-@Api(tags = "카테고리 API")
+@Api(tags = "카테고리 API - 완료 API(프론트 작업 가능)")
 @RestController
 @RequestMapping("/api/categorys")
 @RequiredArgsConstructor

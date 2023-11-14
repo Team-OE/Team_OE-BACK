@@ -13,7 +13,6 @@ public class FeedPostRequestDto {
     public String imageUrl1;
     public String imageUrl2;
     public String imageUrl3;
-    public String hashtag;
     public String latitude;
     public String longitude;
 }
