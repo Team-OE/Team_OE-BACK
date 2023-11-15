@@ -71,7 +71,8 @@ public class FeedController {
         FeedResponseDto feedResponseDto = feedMapper.feedToFeedResponseDto(feedService.getFeed(feedId));
         return ResponseEntity.status(HttpStatus.OK).body(feedResponseDto);
     }
-
+    @ApiOperation(value = "내가 쓴 게시글 모아보기",
+            notes = " - Header의 Authorization 필수")
     @GetMapping("/my")
     public ResponseEntity getMyFeedList(@RequestHeader(value = "Authorization", required = false) String accessToken) {
         if (ObjectUtils.isEmpty(accessToken)){

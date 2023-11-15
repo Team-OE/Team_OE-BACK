@@ -59,7 +59,8 @@ public class FeedLikeController {
         FeedLikeResponseDto feedLikeResponseDto = feedLikeService.getFeedLike(accessToken, feedId);
         return ResponseEntity.status(HttpStatus.CREATED).body(feedLikeResponseDto);
     }
-
+    @ApiOperation(value = "내가 누른 좋아요 모아보기",
+            notes = " - Header의 Authorization 필수")
     @GetMapping("/my")
     public ResponseEntity getMyFeedLikeList(
             @RequestHeader(value = "Authorization", required = false) String accessToken

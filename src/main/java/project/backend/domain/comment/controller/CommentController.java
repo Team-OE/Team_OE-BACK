@@ -51,6 +51,8 @@ public class CommentController {
         return ResponseEntity.status(HttpStatus.OK).body(commentResponseDto);
     }
 
+    @ApiOperation(value = "내가 쓴 댓글 모아보기",
+            notes = " - Header의 Authorization 필수")
     @GetMapping("/my")
     public ResponseEntity getMyCommentList(@RequestHeader(value = "Authorization", required = false) String accessToken) {
         if (ObjectUtils.isEmpty(accessToken)){
