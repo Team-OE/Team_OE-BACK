@@ -45,6 +45,12 @@ public class CommentService {
         return verifiedComment(id);
     }
 
+    @Transactional(readOnly = true)
+    public List<Comment> getMyCommentList(String accessToken) {
+        return jwtService.getMemberFromAccessToken(accessToken).getComments();
+    }
+
+    @Transactional(readOnly = true)
     public List<Comment> getCommentList() {
         return commentRepository.findAll();
     }

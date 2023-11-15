@@ -72,6 +72,15 @@ public class FeedController {
         return ResponseEntity.status(HttpStatus.OK).body(feedResponseDto);
     }
 
+    @GetMapping("/my")
+    public ResponseEntity getMyFeedList(@RequestHeader(value = "Authorization", required = false) String accessToken) {
+        if (ObjectUtils.isEmpty(accessToken)){
+            throw new BusinessException(ErrorCode.MISSING_REQUEST);
+        }
+        List<FeedResponseDto> feedResponseDtoList = feedMapper.feedsToFeedResponseDtos(feedService.getMyFeedList(accessToken));
+        return ResponseEntity.status(HttpStatus.OK).body(feedResponseDtoList);
+    }
+
     @ApiIgnore
     @GetMapping
     public ResponseEntity getFeedList() {

@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -56,6 +57,17 @@ public class FeedLikeService {
         }
     }
 
+    @Transactional(readOnly = true)
+    public List<Feed> getMyFeedLikeList(String accessToken) {
+        List<Feed> feedList = new ArrayList<>();
+        List<FeedLike> feedLikeList = jwtService.getMemberFromAccessToken(accessToken).getFeedLikes();
+        for (FeedLike feedLike : feedLikeList) {
+            feedList.add(feedLike.getFeed());
+        }
+        return feedList;
+    }
+
+    @Transactional(readOnly = true)
     public List<FeedLike> getFeedLikeList() {
         return feedLikeRepository.findAll();
     }

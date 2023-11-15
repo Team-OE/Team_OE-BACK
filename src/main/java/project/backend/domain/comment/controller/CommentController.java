@@ -51,6 +51,15 @@ public class CommentController {
         return ResponseEntity.status(HttpStatus.OK).body(commentResponseDto);
     }
 
+    @GetMapping("/my")
+    public ResponseEntity getMyCommentList(@RequestHeader(value = "Authorization", required = false) String accessToken) {
+        if (ObjectUtils.isEmpty(accessToken)){
+            throw new BusinessException(ErrorCode.MISSING_REQUEST);
+        }
+        List<CommentResponseDto> commentResponseDtoList = commentMapper.commentsToCommentResponseDtos(commentService.getMyCommentList(accessToken));
+        return ResponseEntity.status(HttpStatus.OK).body(commentResponseDtoList);
+    }
+
     @ApiIgnore
     @GetMapping
     public ResponseEntity getCommentList() {

@@ -61,6 +61,12 @@ public class FeedService {
     }
 
     @Transactional(readOnly = true)
+    public List<Feed> getMyFeedList(String accessToken) {
+        Member member = jwtService.getMemberFromAccessToken(accessToken);
+        return feedRepository.findAllByMember(member);
+    }
+
+    @Transactional(readOnly = true)
     public List<Feed> getFeedList() {
         return feedRepository.findAll();
     }

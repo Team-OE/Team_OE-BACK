@@ -1,5 +1,7 @@
 package project.backend.domain.feedlike.controller;
 
+import project.backend.domain.feed.dto.FeedResponseDto;
+import project.backend.domain.feed.mapper.FeedMapper;
 import project.backend.domain.feedlike.dto.FeedLikePatchRequestDto;
 import project.backend.domain.feedlike.dto.FeedLikePostRequestDto;
 import project.backend.domain.feedlike.dto.FeedLikeResponseDto;
@@ -28,6 +30,7 @@ public class FeedLikeController {
 
     private final FeedLikeService feedLikeService;
     private final FeedLikeMapper feedLikeMapper;
+    private final FeedMapper feedMapper;
 
 
     @ApiOperation(value = "좋아요 상태 변경",
@@ -55,6 +58,17 @@ public class FeedLikeController {
         }
         FeedLikeResponseDto feedLikeResponseDto = feedLikeService.getFeedLike(accessToken, feedId);
         return ResponseEntity.status(HttpStatus.CREATED).body(feedLikeResponseDto);
+    }
+
+    @GetMapping("/my")
+    public ResponseEntity getMyFeedLikeList(
+            @RequestHeader(value = "Authorization", required = false) String accessToken
+    ) {
+        if (ObjectUtils.isEmpty(accessToken)){
+            throw new BusinessException(ErrorCode.MISSING_REQUEST);
+        }
+        List<FeedResponseDto> feedResponseDtoList = feedMapper.feedsToFeedResponseDtos(feedLikeService.getMyFeedLikeList(accessToken));
+        return ResponseEntity.status(HttpStatus.OK).body(feedResponseDtoList);
     }
 
     @ApiIgnore
