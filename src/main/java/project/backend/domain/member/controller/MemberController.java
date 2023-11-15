@@ -95,7 +95,7 @@ public class MemberController {
         return new ResponseEntity<>(jwtResponse, HttpStatus.CREATED);
     }
 
-
+    @ApiIgnore
     @ApiOperation(
             value = "Member 조회",
             notes = "1. AccessToken으로 조회할 경우 : Header의 Authorization에 accessToken을 넣어주세요.\n" +
