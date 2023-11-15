@@ -63,16 +63,22 @@ public class MemberController {
 
     @ApiOperation(
             value = "회원가입 & 로그인",
-            notes = " - request : {\"socialId\" :\"abcde2\", \"socialType\":\"KAKAO\"}\n" +
-                    "1. socialId, socialType은 필수\n" +
-                    "2. socialType은 \"KAKAO\", \"APPLE\", \"GOOGLE\"만 가능합니다.\n" +
-                    "3. 없으면 계정이 자동 생성되므로 회원가입과 로그인을 통합합니다.")
-    @PostMapping("/login")
+            notes = " - social-type : KAKAO/GOOGLE/NAVER(필수)\n" +
+                    " - code : 인가 코드(필수)\n" +
+                    " - redirect-url : http://localhost:3000/login/(필수) 프론트가 인가코드 요청한 주소, KAKAO Developers에 등록 요망")
+    @GetMapping("/login")
     public ResponseEntity login(
-            @Valid @RequestBody MemberPostRequestDto request) {
+            @RequestParam(value = "social-type", required = false) String socialType,
+            @RequestParam(value = "code", required = false) String code,
+            @RequestParam(value = "redirect-url", required = false) String redirectUrl) {
+
+        if (ObjectUtils.isEmpty(socialType) || ObjectUtils.isEmpty(code) || ObjectUtils.isEmpty(redirectUrl)) {
+            throw new BusinessException(ErrorCode.MISSING_REQUEST);
+        }
+        String socialId = jwtService.getKakaoUserInfo(jwtService.getKakaoAccessToken(code, redirectUrl));
 
         // socialId, socialType기준 Member 반환, 없다면 새로 생성
-        Member member = memberService.getMemberBySocial(request.socialId, request.socialType);
+        Member member = memberService.getMemberBySocial(socialId, SocialType.KAKAO);
 
         // accessToken과 refreshToken 발급
         String accessToken = jwtService.getAccessToken(member);

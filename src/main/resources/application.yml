@@ -48,6 +48,11 @@ logging:
 
 jwt:
   secret: ${OE_SECRET}
+  kakao:
+    client_id: ${OE_KAKAO_CLIENT_ID}
+
+
+
 
 server:
   port: 443
